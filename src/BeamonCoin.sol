@@ -7,7 +7,13 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PermitUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract BeamonCoin is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, AccessControlUpgradeable, ERC20PermitUpgradeable {
+contract BeamonCoin is
+    Initializable,
+    ERC20Upgradeable,
+    ERC20BurnableUpgradeable,
+    AccessControlUpgradeable,
+    ERC20PermitUpgradeable
+{
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -15,7 +21,10 @@ contract BeamonCoin is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable
         _disableInitializers();
     }
 
-    function initialize(address defaultAdmin, address minter) initializer public {
+    function initialize(
+        address defaultAdmin,
+        address minter
+    ) public initializer {
         __ERC20_init("Beamon Coin", "BMC");
         __ERC20Burnable_init();
         __AccessControl_init();

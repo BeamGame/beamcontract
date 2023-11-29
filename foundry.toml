@@ -13,3 +13,29 @@ remappings = [
 
 [fuzz]
 FOUNDRY_FUZZ_RUNS=50
+
+[rpc_endpoints]
+default_network = "http://127.0.0.1:8545"
+localhost = "http://127.0.0.1:8545"
+
+mainnet = "https://eth-mainnet.alchemyapi.io/v2/oKxs-03sij-U_N0iOlrSsZFr29-IqbuF"
+sepolia = "https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+goerli = "https://eth-goerli.alchemyapi.io/v2/oKxs-03sij-U_N0iOlrSsZFr29-IqbuF"
+arbitrum = "https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+arbitrumGoerli = "https://arb-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+optimism = "https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+optimismGoerli = "https://opt-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+polygon = "https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+polygonMumbai = "https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+gnosis = "https://rpc.gnosischain.com"
+chiado = "https://rpc.chiadochain.net"
+base = "https://mainnet.base.org"
+baseGoerli = "https://goerli.base.org"
+mantleTestnet = "https://rpc.testnet.mantle.xyz/"
+scrollSepolia = "https://rpc.ankr.com/scroll_sepolia_testnet"
+polygonZktest = "https://rpc.public.zkevm-test.net"
+beamTestnet = "https://subnets.avax.network/beam/testnet/rpc"
+
+[etherscan]
+polygonMumbai = { key = "${ETHERSCAN_API_KEY}" }
+goerli = { key = "${ETHERSCAN_API_KEY}" }
