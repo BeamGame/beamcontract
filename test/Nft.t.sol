@@ -42,6 +42,34 @@ contract SubscriptionTest is Test {
         vm.stopPrank();
     }
 
+    function testMintProxy() public {
+        vm.startPrank(deployer);
+        beamon.safeMint(alice);
+        vm.stopPrank();
+    }
+
+    function testTransferProxy() public {
+        vm.startPrank(deployer);
+        beamon.safeMint(alice);
+        vm.stopPrank();
+        vm.prank(alice);
+        beamon.safeTransferFrom(alice, charlie, 0);
+    }
+
+    function testTransfer() public {
+        vm.startPrank(deployer);
+        testGas.safeMint(alice);
+        vm.stopPrank();
+        vm.prank(alice);
+        testGas.safeTransferFrom(alice, charlie, 0);
+    }
+
+    function testMint() public {
+        vm.startPrank(deployer);
+        testGas.safeMint(alice);
+        vm.stopPrank();
+    }
+
     function testFuzzMintProxy(address[] calldata users) public {
         vm.startPrank(deployer);
         for (uint i = 0; i < users.length; i++) {
