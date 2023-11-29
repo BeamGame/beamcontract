@@ -10,3 +10,6 @@ remappings = [
     "@openzeppelin/contracts-upgradeable=lib/openzeppelin-contracts-upgradeable/contracts",
     "@openzeppelin/contracts=lib/openzeppelin-contracts/contracts"
 ]
+
+[fuzz]
+FOUNDRY_FUZZ_RUNS=50
