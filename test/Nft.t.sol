@@ -8,7 +8,7 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 import {ProxyAdmin} from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 
-contract SubscriptionTest is Test {
+contract NftTest is Test {
     ProxyAdmin public proxyAdmin;
     Beamon public beamon;
     TestGas public testGas;
@@ -73,7 +73,7 @@ contract SubscriptionTest is Test {
     function testFuzzMintProxy(address[] calldata users) public {
         vm.startPrank(deployer);
         for (uint i = 0; i < users.length; i++) {
-            vm.assume(users[i].code.length == 0);
+            vm.assume(users[i] != address(0) && users[i].code.length == 0);
             beamon.safeMint(users[i]);
         }
         vm.stopPrank();
@@ -82,7 +82,7 @@ contract SubscriptionTest is Test {
     function testFuzzMint(address[] calldata users) public {
         vm.startPrank(deployer);
         for (uint i = 0; i < users.length; i++) {
-            vm.assume(users[i].code.length == 0);
+            vm.assume(users[i] != address(0) && users[i].code.length == 0);
             testGas.safeMint(users[i]);
         }
         vm.stopPrank();
