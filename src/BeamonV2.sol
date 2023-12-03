@@ -13,7 +13,6 @@ contract BeamonV2 is
     AccessControlUpgradeable
 {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-    uint256 private _nextTokenId;
     string public uri;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
