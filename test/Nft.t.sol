@@ -23,12 +23,15 @@ contract NftTest is Test {
     function setUp() public {
         vm.startPrank(deployer);
 
-        proxyAdmin = new ProxyAdmin(deployer);
+
+        // need manage admin created
+        vm.recordLogs();
 
         // deploy proxy contract with deployer as owner
         Beamon beamonV1 = Beamon(
             _deployProxy(
                 address(new Beamon()),
+                deployer,
                 abi.encodeWithSelector(
                     Beamon.initialize.selector,
                     deployer,
@@ -37,6 +40,10 @@ contract NftTest is Test {
                 )
             )
         );
+        
+        Vm.Log[] memory entries = vm.getRecordedLogs();
+
+        console.log("length", entries.length);
 
         // upgrade
         proxyAdmin.upgradeAndCall(
@@ -100,13 +107,14 @@ contract NftTest is Test {
 
     function _deployProxy(
         address implementation_,
+        address admin_,
         bytes memory initializer_
     ) internal returns (address) {
         return
             address(
                 new TransparentUpgradeableProxy(
                     implementation_,
-                    address(proxyAdmin),
+                    admin_,
                     initializer_
                 )
             );

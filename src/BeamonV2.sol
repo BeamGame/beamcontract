@@ -16,8 +16,24 @@ contract BeamonV2 is
     uint256 private _nextTokenId;
     string public uri;
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
-    }   
+        _disableInitializers();
+    }
+
+    function initialize(
+        address defaultAdmin,
+        address minter,
+        string calldata _uri
+    ) public initializer {
+        __ERC721_init("Beamon", "BM");
+        __ERC721Burnable_init();
+        __AccessControl_init();
+
+        _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
+        _grantRole(MINTER_ROLE, minter);
+        uri = _uri;
+    }
 
     function _baseURI() internal view override returns (string memory) {
         return uri;
