@@ -3,14 +3,15 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
 import "../src/Beamon.sol";
+import "../src/BeamonV2.sol";
 import "../src/TestGas.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import {TransparentUpgradeableProxy, ITransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 import {ProxyAdmin} from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 
 contract NftTest is Test {
     ProxyAdmin public proxyAdmin;
-    Beamon public beamon;
+    BeamonV2 public beamon;
     TestGas public testGas;
 
     address deployer = makeAddr("Deployer");
@@ -25,7 +26,7 @@ contract NftTest is Test {
         proxyAdmin = new ProxyAdmin(deployer);
 
         // deploy proxy contract with deployer as owner
-        beamon = Beamon(
+        Beamon beamonV1 = Beamon(
             _deployProxy(
                 address(new Beamon()),
                 abi.encodeWithSelector(
@@ -37,6 +38,15 @@ contract NftTest is Test {
             )
         );
 
+        // upgrade
+        proxyAdmin.upgradeAndCall(
+            ITransparentUpgradeableProxy(address(beamonV1)),
+            address(new BeamonV2()),
+            ""
+        );
+
+        beamon = BeamonV2(address(beamonV1));
+
         testGas = new TestGas(deployer, deployer, "https://beamon.game");
 
         vm.stopPrank();
@@ -44,16 +54,16 @@ contract NftTest is Test {
 
     function testMintProxy() public {
         vm.startPrank(deployer);
-        beamon.safeMint(alice);
+        beamon.safeMint(alice, 1);
         vm.stopPrank();
     }
 
     function testTransferProxy() public {
         vm.startPrank(deployer);
-        beamon.safeMint(alice);
+        beamon.safeMint(alice, 1);
         vm.stopPrank();
         vm.prank(alice);
-        beamon.safeTransferFrom(alice, charlie, 0);
+        beamon.safeTransferFrom(alice, charlie, 1);
     }
 
     function testTransfer() public {
@@ -74,7 +84,7 @@ contract NftTest is Test {
         vm.startPrank(deployer);
         for (uint i = 0; i < users.length; i++) {
             vm.assume(users[i] != address(0) && users[i].code.length == 0);
-            beamon.safeMint(users[i]);
+            beamon.safeMint(users[i], i);
         }
         vm.stopPrank();
     }
